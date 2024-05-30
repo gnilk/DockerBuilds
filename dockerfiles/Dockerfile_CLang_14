@@ -1,0 +1,45 @@
+FROM teeks99/clang-ubuntu:14
+
+# Supply when building so it matches your local..
+# --build-arg USER_ID=`id -u`
+# --build-arg GROUP_ID=`id -g`
+
+ARG USER_ID=1000
+ARG GROUP_ID=1000
+
+
+RUN groupadd --gid $USER_ID build
+RUN useradd -m -p dummy --uid $USER_ID --gid $GROUP_ID builder
+
+
+RUN apt update -qq && \
+apt install -y -qq --no-install-recommends software-properties-common gpgv2 && \
+apt install -qq -y --no-install-recommends \
+cmake \
+doxygen \
+file \
+flex \
+gperf \
+git \
+iputils-ping \
+binutils-dev
+
+ENV CC=/usr/bin/clang
+ENV CXX=/usr/bin/clang++
+
+WORKDIR /usr/src
+RUN git clone https://github.com/gnilk/testrunner
+RUN cd testrunner; mkdir bld; cd bld; cmake ..; make -j; make install
+
+
+USER builder
+WORKDIR /home/builder
+
+
+# this is assumed, you can also override by passing this on the arg as you MUST with the mount-point
+ENV PROJECT_HOME=/proj
+WORKDIR /proj/bld
+
+# ENTRYPOINT [ "sh","-c","pwd;cmake ..;make clean; make -j"]
+
+
