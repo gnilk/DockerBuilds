@@ -29,7 +29,7 @@ This makes it work decently against your build directory - assuming you have the
 ## Building the GCC 8.4.0 image
 The GCC 8.4.0 is using the GCC 13.3 base image and downlads and builds GCC from sources. Thus it takes quite a while.
 
-Therefore the build is disabled in the shell script. Suggested that you run this stand alone - over night - as it takes forever - unless you have a power horse. On my machine (which builds pucko in 6.5 seconds) building the GCC image takes roughly 10 minutes.
+Therefore the build is disabled in the shell script. Suggested that you run this stand alone - over night - as it takes forever - unless you have a power horse. On my machine building the GCC image takes roughly 10 minutes.
 
 
 # Running Images
